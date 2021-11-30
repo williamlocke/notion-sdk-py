@@ -52,6 +52,19 @@ class BlocksEndpoint(Endpoint):
             path=f"blocks/{block_id}", method="GET", auth=kwargs.get("auth")
         )
 
+    def retrieve_block_children(self, block_id: str, **kwargs: Any) -> SyncAsync[Any]:
+        return self.parent.request(
+            path=f"blocks/{block_id}/children", method="GET", auth=kwargs.get("auth")
+        )
+
+    def append_block_children(self, block_id: str, **kwargs: Any) -> SyncAsync[Any]:
+        return self.parent.request(
+            path=f"blocks/{block_id}/children",
+            method="PATCH",
+            body=pick(kwargs, "children"),
+            auth=kwargs.get("auth"),
+        )
+    
     def update(self, block_id: str, **kwargs: Any) -> SyncAsync[Any]:
         """Update the content for the specified `block_id` based on the block type.
 
